@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<project name="XingCloudAnalytic" default="all" basedir=".">
+	<property name="javac.src" value="1.6"/>
+	<property name="javadoc.path" value="doc"/>
+	<property name="build.path" value="bin" />
+	<property name="lib.dir" value="libs"/>
+	<property name="src.dir" value="src"/>
+	<property name="depens.dir" value="lib"/>
+	<property name="jar.dir" value="out"/>
+   	<property name="build.number" value=""/>
+	<property name="build.debug" value="true"/>
+	<path id="classpath">
+		<fileset dir="${depens.dir}" includes="**/*.jar"/>
+		<fileset dir="${lib.dir}" includes="**/**/*.so"/>
+	</path>
+	<target name="all" depends="clean,prepare,compile,build" description="cleans and runs the full build">
+	</target>
+	<target name="clean">
+		<delete failonerror="false">
+			<fileset dir="${build.path}"/>
+			<fileset dir="${jar.dir}"/>
+		</delete>
+	</target>
+	<target name="prepare">
+		<mkdir dir="${jar.dir}"/>
+		<mkdir dir="${build.path}"/>
+	</target>
+	<target name="compile" depends="prepare" description="compile">
+		<mkdir dir="${build.path}/classes"/>
+		<javac encoding="utf-8" source="${javac.src}" target="${javac.src}" debug="${build.debug}" deprecation="false" destdir="${build.path}/classes" srcdir="${src.dir}"
+            classpathref="classpath">
+		</javac>
+	</target>
+	<target name="build">
+		<jar destfile="${jar.dir}/xingcloudanalytic.jar">
+		<fileset dir="${build.dir}/classes"/>
+			<manifest>
+				<attribute name="Sealed" value="false"/>
+				<attribute name="Implementation-Title" value="XingCloudAnalytic"/>
+				<attribute name="Implementation-Version" value="1.0.0.0"/>
+				<attribute name="Implementation-Vendor" value="XingCloud"/>
+			</manifest>
+		</jar>
+	</target>
+</project>
